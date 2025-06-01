@@ -1,4 +1,5 @@
 
+
 <div align='center'>
   <h1>PromptKit</h1>
   <p>CLI util that collects project code examples to make AI prompts better</p>
@@ -235,8 +236,8 @@ npx promptkit collect -f md -o stdout src/*.ts
 ### Create enum test with values FOO, BAR, BAZ
 
 ```ts
-export type TTest = ConvertTupleToUnion<typeof LTest>;
-export const LTest = <const>['FOO', 'BAR', 'BAZ'];
+export type TTest = ConvertTupleToUnion❬typeof LTest❭;
+export const LTest = ❬const❭['FOO', 'BAR', 'BAZ'];
 ```
 
 ### Create a prepared class with properties
