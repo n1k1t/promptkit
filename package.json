@@ -51,14 +51,16 @@
     "node": ">=20.16.0"
   },
   "keywords": [
-    "unit",
-    "test",
     "ai",
     "generation",
     "artificial",
     "intelligence",
-    "keploy",
-    "cli"
+    "code",
+    "parser",
+    "assistant",
+    "fine-tuning",
+    "continuedev",
+    "prompt"
   ],
   "homepage": "https://github.com/n1k1t/promptkit",
   "author": "n1k1t",
