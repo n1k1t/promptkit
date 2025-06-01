@@ -5,7 +5,7 @@
   "main": "lib/src/index.js",
   "types": "lib/src/index.d.ts",
   "bin": {
-    "unit": "lib/src/cli.js"
+    "promptkit": "lib/src/cli.js"
   },
   "scripts": {
     "test": "NODE_ENV=test jest --silent",
