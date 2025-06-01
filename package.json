@@ -1,6 +1,6 @@
 {
   "name": "@n1k1t/promptkit",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "CLI util that collects project code examples to make AI prompts better",
   "main": "lib/src/index.js",
   "types": "lib/src/index.d.ts",
