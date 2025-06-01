@@ -1,3 +1,5 @@
+import json2md from 'json2md';
+
 import { IAiAnnotation, ICollectCommandParameters, IMatchedFile } from './types';
 import { extractAiAnnotations } from './utils';
 import { serializers } from './utils';
@@ -45,11 +47,36 @@ test('serializers.md creates markdown with header and annotations', () => {
 });
 
 // Test generated using Keploy
-test('serializers.continuedev formats annotations as YAML string', () => {
-  const annotations = <IAiAnnotation[]>[{ prompt: 'rulePrompt', code: 'rule code', lang: 'json' }];
-  const parameters = <ICollectCommandParameters>{ md: { header: 'My Header' } };
-  const output = serializers.continuedev(annotations, parameters);
-  expect(typeof output).toBe('string');
-  expect(output).toContain('PROMOTKIT');
-  expect(output).toContain('schema: v1');
+test('serializers.finetuning serializes annotations to correct JSONL format', () => {
+  const annotations = <IAiAnnotation[]>[
+    { prompt: 'first prompt', code: 'let a = 1;', lang: 'js' },
+    { prompt: 'second prompt', code: 'let b = 2;', lang: 'ts' }
+  ];
+  const result = serializers.finetuning(annotations);
+  const expectedJsonl = JSON.stringify({
+    messages: [
+      { role: 'user', content: 'first prompt' },
+      { role: 'assistant', content: json2md({ code: { content: 'let a = 1;', language: 'js' } }) }
+    ]
+  }) + '\n' + JSON.stringify({
+    messages: [
+      { role: 'user', content: 'second prompt' },
+      { role: 'assistant', content: json2md({ code: { content: 'let b = 2;', language: 'ts' } }) }
+    ]
+  });
+  expect(result).toBe(expectedJsonl);
+});
+
+// Test generated using Keploy
+test('serializers.continuedev correctly includes YAML metadata', () => {
+  const annotations = <IAiAnnotation[]>[
+    { prompt: 'yaml prompt', code: 'console.log("Hello");', lang: 'js' }
+  ];
+  const parameters = <ICollectCommandParameters>{ md: { header: 'Custom Header' } };
+  const result = serializers.continuedev(annotations, parameters);
+  expect(result).toContain('name: PROMPTKIT');
+  expect(result).toContain('version: 0.0.1');
+  expect(result).toContain('schema: v1');
+  expect(result).toContain('yaml prompt');
+  expect(result).toContain('console.log("Hello");');
 });
