@@ -43,8 +43,8 @@ export default async (parameters: ICollectCommandParameters) => {
     return console.log(serializers[parameters.format]?.(annotations, parameters));
   }
 
-  const dist = parameters.dist ?? path.join(cwd, `promptkit${convertFormatToExt(parameters.format)}`);
-  await fs.writeFile(dist, serializers[parameters.format](annotations, parameters));
+  const dest = parameters.dest ?? path.join(cwd, `promptkit${convertFormatToExt(parameters.format)}`);
+  await fs.writeFile(dest, serializers[parameters.format](annotations, parameters));
 
   console.log(`Done in ${Date.now() - timestamp}ms`);
 };

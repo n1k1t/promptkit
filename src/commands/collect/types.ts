@@ -7,7 +7,7 @@ export interface ICollectCommandParameters {
   output: TCollectOutput;
 
   ignore?: string;
-  dist?: string;
+  dest?: string;
 
   md?: {
     header?: string;

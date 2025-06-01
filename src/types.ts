@@ -11,7 +11,7 @@ export interface IPromptkitCliOptions {
     format: TCollectFormat;
     output: TCollectOutput;
 
-    dist?: string;
     ignore?: string;
+    dest?: string;
   };
 }

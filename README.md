@@ -133,7 +133,7 @@ Collects @ai annotations with code by provided path pattern
 Options:
   -f --format [json|md|yaml|continuedev|finetuning]  Annotations format (default: "md")
   -o --output [stdout|file]                          Annotations output (default: "file")
-  -d --dist [value]                                  Destination path for a file
+  -d --dest [value]                                  Destination path for a file
   -i --ignore [value]                                Ignore pattern (default: "node_modules/**")
   -h, --help                                         display help for command
 ```
