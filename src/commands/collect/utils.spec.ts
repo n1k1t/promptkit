@@ -1,5 +1,4 @@
 import json2md from 'json2md';
-
 import { IAiAnnotation, ICollectCommandParameters, IMatchedFile } from './types';
 import { extractAiAnnotations } from './utils';
 import { serializers } from './utils';
@@ -79,4 +78,52 @@ test('serializers.continuedev correctly includes YAML metadata', () => {
   expect(result).toContain('schema: v1');
   expect(result).toContain('yaml prompt');
   expect(result).toContain('console.log("Hello");');
+});
+
+// Test generated using Keploy
+test('extractAiAnnotations with @ai comment', () => {
+  const mockFile: IMatchedFile = {
+    path: 'single/ai/comment',
+    code: `
+    /**
+     * @ai prompt: This is a test prompt
+     */
+    const x = 42;`,
+    lang: 'ts',
+  };
+  const annotations = extractAiAnnotations(mockFile);
+  expect(annotations.length).toBe(1);
+  expect(annotations[0].prompt).toBe('prompt: This is a test prompt');
+  expect(annotations[0].code).toContain('const x = 42;');
+});
+
+// Test generated using Keploy
+test('extractAiAnnotations with @ai groups', () => {
+  const mockFile = {
+    path: 'group/ai/comments',
+    code: `
+    /**
+     * @ai {group1} prompt: First prompt in group1
+     */
+    const a = 1;
+
+    /**
+     * @ai {group1} prompt: Second prompt in group1
+     */
+    const b = 2;
+
+    /**
+     * @ai {group2} prompt: Prompt in group2
+     */
+    const c = 3;
+    `,
+    lang: 'ts',
+  };
+  const annotations = extractAiAnnotations(mockFile);
+  expect(annotations.length).toBe(2);
+  expect(annotations[0].prompt).toBe('prompt: First prompt in group1');
+  expect(annotations[0].code).toContain('const a = 1;');
+  expect(annotations[0].code).toContain('const b = 2;');
+  expect(annotations[1].prompt).toBe('prompt: Prompt in group2');
+  expect(annotations[1].code).toContain('const c = 3;');
 });
